@@ -12,13 +12,14 @@ namespace BoardControl{
 		static int fps = 5;
 		static int sleeptime = (int)(1f/fps*1000);
 		static string[] padnames = {"top left", "bottom left", "top right", "bottom right"};
-		static float threshhold = 3.5f;
+		static float threshhold = 5f;
 
 		static IDeviceProvider deviceProvider;
 
 		static bool updating;
+		static float[] tare = new float[4];
 		static float[] values = new float[4];
-		static float[] lastvalues = new float[4];
+		static bool[] down = new bool[4];
 
 		const int KEY_RELEASE = 2;
 		
@@ -32,7 +33,6 @@ namespace BoardControl{
 
 			deviceProvider.DeviceFound += DeviceFound;
 			deviceProvider.DeviceLost += DeviceLost;
-			Console.WriteLine(deviceProvider.ConnectedDevices.Count + " " + deviceProvider.FoundDevices.Count);
 
 
 			Console.WriteLine ("Discovering device...");
@@ -54,43 +54,43 @@ namespace BoardControl{
 
 			IBalanceBoard board = (IBalanceBoard)device;
 
-			for(int i = 0; i < 4; i ++){
-				lastvalues[i] = values[i];
-			}
+			tare[0] = board.TopLeftWeight;
+			tare[1] = board.BottomLeftWeight;
+
+			tare[2] = board.TopRightWeight;
+			tare[3] = board.BottomRightWeight;
 
 			updating = true;
 
 			Thread thread = new Thread (()=>{
 
 				while(updating){
-					values[0] = board.TopLeftWeight;
-					values[1] = board.BottomLeftWeight;
+					values[0] = board.TopLeftWeight - tare[0];
+					values[1] = board.BottomLeftWeight - tare[1];
 
-					values[2] = board.TopRightWeight;
-					values[3] = board.BottomRightWeight;
-					//dddadaddadddadaddaaddadadadadadddddddaaadaadaaddaaddadddadadadddadadadadadadaddaaaaaaaaaaaddadddddadaddadaddadadadaddadadddadddadadaddadaddddadadd
+					values[2] = board.TopRightWeight - tare[2];
+					values[3] = board.BottomRightWeight - tare[3];
+
 					for(int i = 0; i < 4; i ++){
-						if(values[i] - lastvalues[i] > threshhold){
+						if(values[i] > threshhold && !down[i]){
 							
 							if(data.keys[i] != -1){
-								Console.WriteLine("Key down: " + padnames[i] + ": " + lastvalues[i] + " -> " + values[i]);
+								Console.WriteLine("Key down: " + padnames[i] + ": " + values[i]);
 
 								KeyDown(data.keys[i]);
+								down[i] = true;
 							}
 						}
 
-						if(values[i] - lastvalues[i] < -threshhold){
+						if(values[i] < threshhold && down[i]){
 
 							if(data.keys[i] != -1){
-								Console.WriteLine("Key up: " + padnames[i] + ": " + lastvalues[i] + " -> " + values[i]);
+								Console.WriteLine("Key up: " + padnames[i] + ": " + values[i]);
 
 								KeyUp(data.keys[i]);
+								down[i] = false;
 							}
 						}
-					}
-
-					for(int i = 0; i < 4; i ++){
-						lastvalues[i] = values[i];
 					}
 
 					Thread.Sleep(sleeptime);
