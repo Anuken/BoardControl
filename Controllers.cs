@@ -5,19 +5,21 @@ namespace BoardControl{
 
 	class Controllers{
 		const int
-			UP = 0x57,
-			LEFT = 0x41,
-			DOWN = 0x53,
-			RIGHT = 0x44;
-		const int topLeft = 0, bottomLeft = 1, topRight = 2, bottomRight = 3;
+			W = 0x57,
+			A = 0x41,
+			S = 0x53,
+			D = 0x44;
+		const int padLeft = 0, padRight = 1;
 
-		public static Controller test = e=>{
-			e.keys[topLeft] = UP;
-			e.keys[topRight] = DOWN;
-			e.keys[bottomLeft] = LEFT;
-			e.keys[bottomRight] = RIGHT;
+		public static Controller leftRightWASD = e=>{
+			e.keys[padLeft] = A;
+			e.keys[padRight] = D;
 		};
 
-	}
+		public static Controller upDownWASD = e =>{
+			e.keys[padLeft] = S;
+			e.keys[padRight] = W;
+
+		};
 }
 

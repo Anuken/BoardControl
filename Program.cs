@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 namespace BoardControl{
 	
 	class MainClass{
-		static Controller controller = Controllers.test;
+		static Controller controller = Controllers.leftRightWASD;
 		static ControlData data = new ControlData();
 
 		static int fps = 5;
@@ -15,11 +15,11 @@ namespace BoardControl{
 		static float threshhold = 5f;
 
 		static IDeviceProvider deviceProvider;
+		static IBalanceBoard board;
 
-		static bool updating;
 		static float[] tare = new float[4];
-		static float[] values = new float[4];
-		static bool[] down = new bool[4];
+		static float[] values = new float[2];
+		static bool[] down = new bool[2];
 
 		const int KEY_RELEASE = 2;
 		
@@ -50,7 +50,7 @@ namespace BoardControl{
 			IDevice device = deviceProvider.Connect(args.DeviceInfo);
 			Console.WriteLine ("Found device: " + device.ToString());
 
-			IBalanceBoard board = (IBalanceBoard)device;
+			board = (IBalanceBoard)device;
 
 			tare[0] = board.TopLeftWeight;
 			tare[1] = board.BottomLeftWeight;
@@ -58,60 +58,58 @@ namespace BoardControl{
 			tare[2] = board.TopRightWeight;
 			tare[3] = board.BottomRightWeight;
 
-			updating = true;
+			board.Updated += Updated;
+		}
 
-			Thread thread = new Thread (()=>{
+		static void Updated(object sender, EventArgs e){
+			values[0] = board.TopLeftWeight - tare[0]
+			 + board.BottomLeftWeight - tare[1];
 
-				while(updating){
-					values[0] = board.TopLeftWeight - tare[0];
-					values[1] = board.BottomLeftWeight - tare[1];
+			values[1] = board.TopRightWeight - tare[2]
+				+ board.BottomRightWeight - tare[3];
 
-					values[2] = board.TopRightWeight - tare[2];
-					values[3] = board.BottomRightWeight - tare[3];
+			float left = values[0];
+			float right = values[1];
 
-					for(int i = 0; i < 4; i ++){
-						if(values[i] > threshhold && !down[i]){
-							
-							if(data.keys[i] != -1){
-								Console.WriteLine("Key down: " + padnames[i] + ": " + values[i]);
-
-								KeyDown(data.keys[i]);
-								down[i] = true;
-							}
-						}
-
-						if(values[i] < threshhold && down[i]){
-
-							if(data.keys[i] != -1){
-								Console.WriteLine("Key up: " + padnames[i] + ": " + values[i]);
-
-								KeyUp(data.keys[i]);
-								down[i] = false;
-							}
-						}
+			if (data.keys[0] != -1){
+				if (left > threshhold && left > right){
+					if (!down[0]){
+						KeyDown(data.keys[0]);
+						down[0] = true;
 					}
-
-					Thread.Sleep(sleeptime);
+				}else if(down[0]){
+                	KeyUp(data.keys[0]);
+					down[0] = false;
 				}
-			});
+			}
 
-			thread.Start();
+			if (data.keys[1] != -1){
+				if (right > threshhold && right > left){
+					if (!down[1]){
+						KeyDown(data.keys[1]);
+						down[1] = true;
+					}
+				}else if (down[1]){
+                    KeyUp(data.keys[1]);
+					down[1] = false;
+				}
+			}
 		}
 
 		static void DeviceLost(object sender, DeviceInfoEventArgs arg){
 			Console.WriteLine ("Lost device: " + arg.DeviceInfo.ToString());
-
-			updating = false;
 		}
 
 		[DllImport("user32.dll")]
 		static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
 
 		static void KeyDown(int i){
+			Console.WriteLine("Key down: " + i);
 			keybd_event ((byte)i, 0, 0, new System.UIntPtr());
 		}
 
 		static void KeyUp(int i){
+			Console.WriteLine("Key up: " + i);
 			keybd_event ((byte)i, 0, KEY_RELEASE, new System.UIntPtr());
 		}
 
