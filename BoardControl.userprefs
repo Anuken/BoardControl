@@ -1,15 +1,14 @@
-﻿<Properties StartupConfiguration="{F45EAD2B-5D3E-4263-8A01-9711F5CB29A0}|Default">
+﻿<Properties StartupItem="BoardControl.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ControlData.cs">
+    <Files>
+      <File FileName="Program.cs" Line="108" Column="25" />
+      <File FileName="ControlData.cs" Line="18" Column="2" />
+      <File FileName="Controllers.cs" Line="12" Column="4" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench ActiveDocument="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\MsBluetooth\NativeMethods.cs">
-    <Files>
-      <File FileName="Program.cs" Line="12" Column="30" />
-      <File FileName="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\MsBluetooth\NativeMethods.cs" Line="154" Column="1" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.BoardControl PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

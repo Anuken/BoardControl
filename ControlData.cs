@@ -4,9 +4,10 @@ using System.Collections.Generic;
 namespace BoardControl{
 	
 	public class ControlData{
-		public int[] keys = {-1, -1, -1, -1, -1, -1};
-		public int[] keysDown = {-1, -1, -1, -1, -1, -1};
-		public int[] keysUp = {-1, -1, -1, -1, -1, -1};
+		public Key[] keys = new Key[6];
+		public Key[] keysDown = new Key[6];
+		public Key[] keysUp = new Key[6];
+		public Key[] keysDoubleTap = new Key[6];
 
 		public List<KeyGroup> groups = new List<KeyGroup>(new KeyGroup[]{
 			new KeyGroup(0,4), new KeyGroup(4, 6)
