@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 namespace BoardControl{
 	
 	class MainClass{
-		static Controller controller = Controllers.leftRightWASD;
+		static Controller controller = Controllers.WASD;
 		static ControlData data = new ControlData();
 
 		static int fps = 5;
@@ -18,8 +18,8 @@ namespace BoardControl{
 		static IBalanceBoard board;
 
 		static float[] tare = new float[4];
-		static float[] values = new float[2];
-		static bool[] down = new bool[2];
+		static float[] values = new float[6];
+		static bool[] down = new bool[6];
 
 		const int KEY_RELEASE = 2;
 		
@@ -62,38 +62,45 @@ namespace BoardControl{
 		}
 
 		static void Updated(object sender, EventArgs e){
-			values[0] = board.TopLeftWeight - tare[0]
-			 + board.BottomLeftWeight - tare[1];
+			values[0] = board.TopLeftWeight - tare [0];
+			values[1] = board.BottomLeftWeight - tare[1];
 
-			values[1] = board.TopRightWeight - tare[2]
-				+ board.BottomRightWeight - tare[3];
+			values[2] = board.TopRightWeight - tare [2];
+			values[3] = board.BottomRightWeight - tare[3];
 
-			float left = values[0];
-			float right = values[1];
+			values[4] = values[0] + values[1];
+			values[5] = values[2] + values[3];
 
-			if (data.keys[0] != -1){
-				if (left > threshhold && left > right){
-					if (!down[0]){
-						KeyDown(data.keys[0]);
-						down[0] = true;
-					}
-				}else if(down[0]){
-                	KeyUp(data.keys[0]);
-					down[0] = false;
+			pressOne (0, 4);
+			pressOne (4, 6);
+		}
+
+		static void pressOne(int start, int end){
+			//find the max
+			int max = -1;
+
+			for(int i = start; i < end; i ++){
+				if(values[i] > threshhold && (max == -1 || values[i] > values[max])){
+					max = i;
 				}
 			}
 
-			if (data.keys[1] != -1){
-				if (right > threshhold && right > left){
-					if (!down[1]){
-						KeyDown(data.keys[1]);
-						down[1] = true;
+			//unpress everything except the max
+			for(int i = start; i < end; i ++){
+				if (i != max && down [i]) {
+					if (data.keys [i] != -1) {
+						KeyUp(data.keys[i]);
 					}
-				}else if (down[1]){
-                    KeyUp(data.keys[1]);
-					down[1] = false;
 				}
 			}
+
+			//press max if needed
+			if(max != -1 && !down[max]){
+				if (data.keys [max] != -1) {
+					KeyDown(data.keys[max]);
+				}
+			}
+
 		}
 
 		static void DeviceLost(object sender, DeviceInfoEventArgs arg){
