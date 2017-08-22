@@ -100,6 +100,8 @@ namespace BoardControl{
 						KeyDown (data.keysUp[i]);
 						DelayKeyUp (data.keysUp[i]);
 					}
+
+					down [i] = false;
 				}
 			}
 
@@ -113,6 +115,8 @@ namespace BoardControl{
 					KeyDown (data.keysDown[max]);
 					DelayKeyUp (data.keysDown[max]);
 				}
+
+				down [max] = true;
 			}
 
 		}
