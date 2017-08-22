@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{F45EAD2B-5D3E-4263-8A01-9711F5CB29A0}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>OSUBoard</RootNamespace>
+    <AssemblyName>OSUBoard</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="gtk-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Package>gtk-sharp-3.0</Package>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\BluetoothAddress.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\DeviceProviderFactoryHelper.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\Bluesoleil\BluesoleilDeviceInfo.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\Bluesoleil\BluesoleilDeviceProvider.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\Bluesoleil\BluesoleilDeviceProviderFactory.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\Bluesoleil\BluesoleilExceptions.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\Bluesoleil\BluesoleilService.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\Bluesoleil\BluetoothConnection.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\Bluesoleil\BluetoothConnectionEventArgs.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\Bluesoleil\BluetoothConnectionStatus.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\Bluesoleil\BluetoothDevice.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\Bluesoleil\BluetoothDeviceEventArgs.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\Bluesoleil\BluetoothDeviceInfoEventArgs.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\Bluesoleil\BluetoothService.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\Bluesoleil\NativeMethods.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\Bluez\BluezDeviceInfo.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\Bluez\BluezDeviceProvider.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\Bluez\BluezDeviceProviderFactory.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\Bluez\BluezStream.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\Bluez\NativeMethods.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\MsBluetooth\MsBluetoothDeviceInfo.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\MsBluetooth\MsBluetoothDeviceProvider.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\MsBluetooth\MsBluetoothDeviceProviderFactory.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\MsBluetooth\NativeMethods.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\MsHid\MsHidDeviceInfo.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\MsHid\MsHidDeviceProvider.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\MsHid\MsHidDeviceProviderFactory.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\MsHid\MsHidDeviceProviderHelper.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\MsHid\MsHidHelper.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\MsHid\MsHidSetOutputReportStream.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\MsHid\MsHidStream.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\MsHid\NativeMethods.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Bluetooth\MsHid\UnsureMsHidStream.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Extensions\ClassicControllerButtons.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Extensions\ClassicControllerExtension.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Extensions\ClassicControllerExtensionFactory.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Extensions\GuitarButtons.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Extensions\GuitarExtension.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Extensions\GuitarExtensionFactory.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Extensions\NunchukButtons.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Extensions\NunchukExtension.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Extensions\NunchukExtensionFactory.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\Accelerometer.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\AccelerometerAxes.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\AccelerometerCalibration.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\AnalogStick.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\AnalogStickAxes.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\AnalogStickCalibration.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\BasicIRBeacon.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\DeviceConnectException.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\DeviceEventArgs.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\DeviceInfoEventArgs.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\DeviceProviderRegistry.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\DummyExtension.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\ExtendedIRBeacon.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\FullIRBeacon.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\IBalanceBoard.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\IBluetoothDeviceInfo.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\IDevice.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\IDeviceInfo.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\IDeviceProvider.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\IDeviceProviderFactory.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\IRMode.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\IRSensitivity.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\IWiiDevice.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\IWiimote.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\IWiimoteExtension.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\IWiimoteExtensionFactory.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\InputReport.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\InvalidExtension.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\OutputReport.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\Pcm8ToAdpcm4Stream.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\PressureCalibration.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\ReportBalanceBoard.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\ReportDevice.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\ReportWiimote.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\ReportingMode.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\UnknownExtension.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\WiimoteButtons.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\WiimoteExtensionEventArgs.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\WiimoteExtensionRegistry.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\WiimoteLeds.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\WiimoteSpeakerStream.cs" />
+    <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="wiidevicelibrary-master\README.md" />
+    <None Include="wiidevicelibrary-master\WiiDeviceLibrary.sln" />
+    <None Include="wiidevicelibrary-master\WiiDeviceLibrary.userprefs" />
+    <None Include="wiidevicelibrary-master\WiiDeviceLibrary\DeviceProviderDiagram.cd" />
+    <None Include="wiidevicelibrary-master\WiiDeviceLibrary\DeviceProviderDiagram.png" />
+    <None Include="wiidevicelibrary-master\WiiDeviceLibrary\GlobalDiagram.cd" />
+    <None Include="wiidevicelibrary-master\WiiDeviceLibrary\GlobalDiagram.png" />
+    <None Include="wiidevicelibrary-master\WiiDeviceLibrary\WiiDeviceLibrary.csproj" />
+    <None Include="wiidevicelibrary-master\WiiDeviceLibrary\WiimoteDiagram.cd" />
+    <None Include="wiidevicelibrary-master\WiiDeviceLibrary\WiimoteDiagram.png" />
+    <None Include="wiidevicelibrary-master\WiiDeviceLibrary\WiimoteExtensionDiagram.cd" />
+    <None Include="wiidevicelibrary-master\WiiDeviceLibrary\WiimoteExtensionDiagram.png" />
+  </ItemGroup>
+</Project>

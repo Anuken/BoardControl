@@ -1,0 +1,21 @@
+﻿<Properties StartupItem="LinuxGUITest/LinuxGUITest.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="WiiDeviceLibrary" expanded="True" selected="True">
+            <Node name="Examples" expanded="True" />
+            <Node name="LinuxGUITest" expanded="True" />
+            <Node name="WiiDeviceLibrary" expanded="True" />
+            <Node name="WindowsGUITest" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
