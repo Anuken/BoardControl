@@ -12,7 +12,7 @@ namespace BoardControl{
 		static int fps = 5;
 		static int sleeptime = (int)(1f/fps*1000);
 		static string[] padnames = {"top left", "bottom left", "top right", "bottom right"};
-		static float threshhold = 4;
+		static float threshhold = 3.5f;
 
 		static IDeviceProvider deviceProvider;
 
@@ -61,17 +61,19 @@ namespace BoardControl{
 
 					for(int i = 0; i < 4; i ++){
 						if(values[i] - lastvalues[i] > threshhold){
-							Console.WriteLine("Key down: " + padnames[i] + ": " + lastvalues[i] + " -> " + values[i]);
 
 							if(data.keys[i] != -1){
+								Console.WriteLine("Key down: " + padnames[i] + ": " + lastvalues[i] + " -> " + values[i]);
+
 								KeyDown(data.keys[i]);
 							}
 						}
 
 						if(values[i] - lastvalues[i] < threshhold){
-							Console.WriteLine("Key up: " + padnames[i] + ": " + lastvalues[i] + " -> " + values[i]);
 
 							if(data.keys[i] != -1){
+								Console.WriteLine("Key up: " + padnames[i] + ": " + lastvalues[i] + " -> " + values[i]);
+
 								KeyUp(data.keys[i]);
 							}
 						}
