@@ -9,7 +9,7 @@ namespace OSUBoard{
 		static int fps = 5;
 		static int sleeptime = (int)(1f/fps*1000);
 		static string[] padnames = {"top left", "bottom left", "top right", "bottom right"};
-		static float threshhold = 1;
+		static float threshhold = 3;
 
 		static IDeviceProvider deviceProvider;
 
