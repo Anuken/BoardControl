@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using WiiDeviceLibrary;
 using System.Runtime.InteropServices;
 
 namespace BoardControl{
 	
 	class MainClass{
+		const int keyUpDelay = 16;
+		const int fps = 5;
+		const int sleeptime = (int)(1f/fps*1000);
+		const string[] padnames = {"top left", "bottom left", "top right", "bottom right"};
+		const float threshhold = 5f;
+
 		static Controller controller = Controllers.WASD;
 		static ControlData data = new ControlData();
-
-		static int fps = 5;
-		static int sleeptime = (int)(1f/fps*1000);
-		static string[] padnames = {"top left", "bottom left", "top right", "bottom right"};
-		static float threshhold = 5f;
 
 		static IDeviceProvider deviceProvider;
 		static IBalanceBoard board;
@@ -40,7 +42,6 @@ namespace BoardControl{
 			try{
 				deviceProvider.StartDiscovering();
 			}catch{
-				Console.WriteLine("Exception occured, re-discovering...");
 				deviceProvider.StopDiscovering();
 				deviceProvider.StartDiscovering();
 			}
@@ -71,8 +72,10 @@ namespace BoardControl{
 			values[4] = values[0] + values[1];
 			values[5] = values[2] + values[3];
 
-			pressOne (0, 4);
-			pressOne (4, 6);
+			//press one from each keygroup
+			foreach(KeyGroup group in data.groups){
+				pressOne (group.from, group.to);
+			}
 		}
 
 		static void pressOne(int start, int end){
@@ -88,8 +91,14 @@ namespace BoardControl{
 			//unpress everything except the max
 			for(int i = start; i < end; i ++){
 				if (i != max && down [i]) {
+					
 					if (data.keys [i] != -1) {
 						KeyUp(data.keys[i]);
+					}
+
+					if(data.keysUp[i] != -1){
+						KeyDown (data.keysUp[i]);
+						DelayKeyUp (data.keysUp[i]);
 					}
 				}
 			}
@@ -98,6 +107,11 @@ namespace BoardControl{
 			if(max != -1 && !down[max]){
 				if (data.keys [max] != -1) {
 					KeyDown(data.keys[max]);
+				}
+
+				if(data.keysDown[max] != -1){
+					KeyDown (data.keysDown[max]);
+					DelayKeyUp (data.keysDown[max]);
 				}
 			}
 
@@ -118,6 +132,11 @@ namespace BoardControl{
 		static void KeyUp(int i){
 			Console.WriteLine("Key up: " + i);
 			keybd_event ((byte)i, 0, KEY_RELEASE, new System.UIntPtr());
+		}
+
+		static async Task DelayKeyUp(int i){
+			await Task.Delay(keyUpDelay);
+			KeyUp (i);
 		}
 
 	}
