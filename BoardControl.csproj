@@ -124,6 +124,8 @@
     <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\WiimoteLeds.cs" />
     <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Interface\WiimoteSpeakerStream.cs" />
     <Compile Include="wiidevicelibrary-master\WiiDeviceLibrary\Properties\AssemblyInfo.cs" />
+    <Compile Include="Controllers.cs" />
+    <Compile Include="ControlData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
