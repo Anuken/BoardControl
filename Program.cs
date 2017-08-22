@@ -6,7 +6,11 @@ using WiiDeviceLibrary;
 namespace OSUBoard{
 	
 	class MainClass{
-		static int sleeptime = 1000;
+		static int fps = 5;
+		static int sleeptime = (int)(1f/fps*1000);
+		static string[] padnames = {"top left", "bottom left", "top right", "bottom right"};
+		static float threshhold = 1;
+
 		static IDeviceProvider deviceProvider;
 
 		static bool updating;
@@ -44,8 +48,8 @@ namespace OSUBoard{
 					values[3] = board.BottomRightWeight;
 
 					for(int i = 0; i < 4; i ++){
-						if(Math.Abs(values[i] - lastvalues[i]) > 0.1){
-							Console.WriteLine("Detected weight change: " + lastvalues[i] + " -> " + values[i]);
+						if(Math.Abs(values[i] - lastvalues[i]) > threshhold){
+							Console.WriteLine(padnames[i] + ": " + lastvalues[i] + " -> " + values[i]);
 						}
 					}
 
