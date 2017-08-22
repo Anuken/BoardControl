@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading;
 using WiiDeviceLibrary;
-using Gtk;
+//using Gtk;
 
 namespace OSUBoard{
 	
 	class MainClass{
-		static int sleeptime = 10;
+		static int sleeptime = 1000;
 		static IDeviceProvider deviceProvider;
 
 		static bool updating;
@@ -44,7 +44,7 @@ namespace OSUBoard{
 					values[3] = board.BottomRightWeight;
 
 					for(int i = 0; i < 4; i ++){
-						if(Math.Abs(values[i] - lastvalues[i]) > 0.01){
+						if(Math.Abs(values[i] - lastvalues[i]) > 0.1){
 							Console.WriteLine("Detected weight change: " + lastvalues[i] + " -> " + values[i]);
 						}
 					}
