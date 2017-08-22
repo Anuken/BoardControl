@@ -12,8 +12,10 @@ namespace BoardControl{
 		const int topLeft = 0, bottomLeft = 1, topRight = 2, bottomRight = 3;
 
 		public static Controller test = e=>{
-			e.keys[topLeft] = LEFT;
-			e.keys[topRight] = RIGHT;
+			e.keys[topLeft] = UP;
+			e.keys[topRight] = DOWN;
+			e.keys[bottomLeft] = LEFT;
+			e.keys[bottomRight] = RIGHT;
 		};
 
 	}

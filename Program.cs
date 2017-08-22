@@ -44,8 +44,6 @@ namespace BoardControl{
 				deviceProvider.StopDiscovering();
 				deviceProvider.StartDiscovering();
 			}
-
-
 		}
 
 		static void DeviceFound(object sender, DeviceInfoEventArgs args){ 
