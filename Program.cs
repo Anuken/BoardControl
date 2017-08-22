@@ -175,13 +175,12 @@ namespace BoardControl{
 
 		//requires xdotool to be installed
 		static void executeBashCommand(string args){
-			ProcessStartInfo startInfo = new ProcessStartInfo();
 			startInfo.FileName = "/usr/bin/xdotool";
 			startInfo.CreateNoWindow = false;
 			startInfo.UseShellExecute = false;
 			startInfo.RedirectStandardOutput = false;
 			startInfo.Arguments = args;
-			Process proc = new Process() { StartInfo = startInfo, };
+			Process proc = new Process() { StartInfo = startInfo};
 			proc.Start();
 			proc.WaitForExit ();
 		}

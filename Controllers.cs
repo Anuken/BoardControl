@@ -36,7 +36,6 @@ namespace BoardControl{
 
 			e.keysDoubleTap[bottomRight] = Keys.LEFT_SHIFT;
 			e.keysDoubleTap[bottomLeft] = Keys.LEFT_SHIFT;
-
 		};
 	}
 }
