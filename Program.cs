@@ -32,9 +32,19 @@ namespace BoardControl{
 
 			deviceProvider.DeviceFound += DeviceFound;
 			deviceProvider.DeviceLost += DeviceLost;
+			Console.WriteLine(deviceProvider.ConnectedDevices.Count + " " + deviceProvider.FoundDevices.Count);
+
 
 			Console.WriteLine ("Discovering device...");
-			deviceProvider.StartDiscovering();
+
+			try{
+				deviceProvider.StartDiscovering();
+			}catch{
+				Console.WriteLine("Exception occured, re-discovering...");
+				deviceProvider.StopDiscovering();
+				deviceProvider.StartDiscovering();
+			}
+
 
 		}
 
@@ -58,10 +68,10 @@ namespace BoardControl{
 
 					values[2] = board.TopRightWeight;
 					values[3] = board.BottomRightWeight;
-
+					//dddadaddadddadaddaaddadadadadadddddddaaadaadaaddaaddadddadadadddadadadadadadaddaaaaaaaaaaaddadddddadaddadaddadadadaddadadddadddadadaddadaddddadadd
 					for(int i = 0; i < 4; i ++){
 						if(values[i] - lastvalues[i] > threshhold){
-
+							
 							if(data.keys[i] != -1){
 								Console.WriteLine("Key down: " + padnames[i] + ": " + lastvalues[i] + " -> " + values[i]);
 
@@ -69,7 +79,7 @@ namespace BoardControl{
 							}
 						}
 
-						if(values[i] - lastvalues[i] < threshhold){
+						if(values[i] - lastvalues[i] < -threshhold){
 
 							if(data.keys[i] != -1){
 								Console.WriteLine("Key up: " + padnames[i] + ": " + lastvalues[i] + " -> " + values[i]);
