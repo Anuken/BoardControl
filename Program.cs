@@ -63,16 +63,16 @@ namespace BoardControl{
 						if(values[i] - lastvalues[i] > threshhold){
 							Console.WriteLine("Key down: " + padnames[i] + ": " + lastvalues[i] + " -> " + values[i]);
 
-							if(data[i] != -1){
-								KeyDown(data[i]);
+							if(data.keys[i] != -1){
+								KeyDown(data.keys[i]);
 							}
 						}
 
 						if(values[i] - lastvalues[i] < threshhold){
 							Console.WriteLine("Key up: " + padnames[i] + ": " + lastvalues[i] + " -> " + values[i]);
 
-							if(data[i] != -1){
-								KeyUp(data[i]);
+							if(data.keys[i] != -1){
+								KeyUp(data.keys[i]);
 							}
 						}
 					}

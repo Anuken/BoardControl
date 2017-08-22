@@ -15,6 +15,7 @@ namespace BoardControl{
 			e.keys[topLeft] = LEFT;
 			e.keys[topRight] = RIGHT;
 		};
+
 	}
 }
 
