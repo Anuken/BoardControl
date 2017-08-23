@@ -43,7 +43,7 @@ namespace BoardControl{
 		}
 
 		void Disconnect(){
-			UpdateStatus("Disconnecting...");
+			UpdateStatus("Disconnected");
 			input.Disconnect ();
 		}
 
@@ -112,9 +112,8 @@ namespace BoardControl{
 			win.ShowAll();
 		}
 
-		void AddBox(VBox box){
+		void AddBox(VBox box, int selevent = 0, int seltype = 0, int selkey = 0){
 			HBox side = new HBox ();
-
 
 			ComboBoxText eventbox = new ComboBoxText ();
 
@@ -122,31 +121,37 @@ namespace BoardControl{
 				eventbox.AppendText (pad.name);
 			}
 
-			eventbox.Active = 0;
+			eventbox.Active = selevent;
 
 			ComboBoxText typebox = new ComboBoxText ();
 
 			foreach(EventType type in data.keys.Keys){
 				typebox.AppendText (type.ToString());
 			}
-
-			typebox.Active = 0;
+			typebox.Active = seltype;
 
 			ComboBoxText keybox = new ComboBoxText ();
-
-			EventHandler changed = (e, args) => {
-				data.keys[(EventType)typebox.Active][eventbox.Active] = Keys.All[keybox.Active];
-			};
-
-			keybox.Changed += changed;
-			typebox.Changed += changed;
-			eventbox.Changed += changed;
 
 			foreach(Key key in Keys.All){
 				keybox.AppendText (key.name);
 			}
 
-			keybox.Active = 0;
+			keybox.Active = selkey;
+
+			EventHandler changed = (e, args) => {
+				data.keys[(EventType)seltype][selevent] = null;
+				Console.WriteLine("Changed: " + ((EventType)typebox.Active).ToString() + " " + eventbox.Active.ToString() + " " + Keys.All[keybox.Active].ToString());
+				data.keys[(EventType)typebox.Active][eventbox.Active] = Keys.All[keybox.Active];
+				selevent = eventbox.Active;
+				seltype = typebox.Active;
+				selkey = keybox.Active;
+			};
+
+			changed (null, null);
+
+			keybox.Changed += changed;
+			typebox.Changed += changed;
+			eventbox.Changed += changed;
 
 			Button removeButton = new Button ("- Remove");
 			removeButton.Pressed += (sender, e) => {

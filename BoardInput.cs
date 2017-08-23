@@ -54,6 +54,8 @@ namespace BoardControl{
 
 			board = (IBalanceBoard)device;
 
+			connected (sender, args);
+
 			Console.WriteLine ("Waiting 2 seconds for tare...");
 			Thread.Sleep (2000);
 			Console.WriteLine("Tare done.");
@@ -66,7 +68,6 @@ namespace BoardControl{
 
 			board.Updated += Updated;
 
-			connected (sender, args);
 		}
 
 		void DeviceLost(object sender, DeviceInfoEventArgs args){
