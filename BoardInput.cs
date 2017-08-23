@@ -7,28 +7,29 @@ using WiiDeviceLibrary;
 
 namespace BoardControl{
 	
-	class MainClass{
-		static int keyUpDelay = 16;
-		static int doubleTapTime = 300;
-		static float threshhold = 5f;
-
-		static Controller controller = Controllers.riskOfRain;
-		static ControlData data = new ControlData();
-
-		static ProcessStartInfo startInfo = new ProcessStartInfo();
-
-		static IDeviceProvider deviceProvider;
-		static IBalanceBoard board;
-
-		static float[] tare = new float[4];
-		static Pad[] pads = {new Pad("top left"), new Pad("bottom left"), new Pad("top right"), new Pad("bottom right"), new Pad("left"), new Pad("right")};
-
+	class BoardInput{
+		const int keyUpDelay = 16;
+		const int doubleTapTime = 300;
+		const float threshhold = 5f;
 		const uint KEY_RELEASE = 2;
-		
-		public static void Main (string[] args){
-			Console.WriteLine ("Starting..");
 
-			controller (data);
+		public ControlData data;
+
+		ProcessStartInfo startInfo = new ProcessStartInfo();
+		IDeviceProvider deviceProvider;
+		IBalanceBoard board;
+
+		public event EventHandler<DeviceInfoEventArgs> connected, disconnected;
+
+		float[] tare = new float[4];
+
+		public Pad[] pads = {new Pad("top left"), new Pad("bottom left"), new Pad("top right"), new Pad("bottom right"), new Pad("left"), new Pad("right")};
+
+
+		public void Pair(ControlData data){
+			this.data = data;
+
+			Console.WriteLine ("Starting..");
 
 			deviceProvider = DeviceProviderRegistry.CreateSupportedDeviceProvider();
 			Console.WriteLine ("Found provider: " + deviceProvider.ToString());
@@ -36,18 +37,18 @@ namespace BoardControl{
 			deviceProvider.DeviceFound += DeviceFound;
 			deviceProvider.DeviceLost += DeviceLost;
 
-
 			Console.WriteLine ("Discovering device...");
 
-			try{
-				deviceProvider.StartDiscovering();
-			}catch{
-				deviceProvider.StopDiscovering();
-				deviceProvider.StartDiscovering();
-			}
+			deviceProvider.StartDiscovering();
 		}
 
-		static void DeviceFound(object sender, DeviceInfoEventArgs args){ 
+		public void Disconnect(){
+			deviceProvider.StopDiscovering ();
+			if(board != null)
+				board.Disconnect ();
+		}
+
+		void DeviceFound(object sender, DeviceInfoEventArgs args){ 
 			IDevice device = deviceProvider.Connect(args.DeviceInfo);
 			Console.WriteLine ("Found device: " + device.ToString());
 
@@ -64,9 +65,16 @@ namespace BoardControl{
 			tare[3] = board.BottomRightWeight;
 
 			board.Updated += Updated;
+
+			connected (sender, args);
 		}
 
-		static void Updated(object sender, EventArgs e){
+		void DeviceLost(object sender, DeviceInfoEventArgs args){
+			Console.WriteLine ("Lost device: " + args.DeviceInfo.ToString());
+			disconnected (sender, args);
+		}
+
+		void Updated(object sender, EventArgs e){
 			pads[0].value = board.TopLeftWeight - tare [0];
 			pads[1].value = board.BottomLeftWeight - tare[1];
 
@@ -85,7 +93,7 @@ namespace BoardControl{
 			}
 		}
 
-		static void pressOne(int start, int end){
+		void pressOne(int start, int end){
 			//find the max
 			int max = -1;
 
@@ -99,13 +107,13 @@ namespace BoardControl{
 			for(int i = start; i < end; i ++){
 				if (i != max && pads[i].down) {
 					
-					if (data.keys [i] != null) {
-						KeyUp(data.keys[i]);
+					if (data.keys[EventType.pressed][i] != null) {
+						KeyUp(data.keys[EventType.pressed][i]);
 					}
 
-					if(data.keysUp[i] != null){
-						KeyDown (data.keysUp[i]);
-						DelayKeyUp (data.keysUp[i]);
+					if(data.keys[EventType.up][i] != null){
+						KeyDown (data.keys[EventType.up][i]);
+						DelayKeyUp (data.keys[EventType.up][i]);
 					}
 
 					pads[i].down = false;
@@ -116,18 +124,18 @@ namespace BoardControl{
 			if(max != -1 && !pads[max].down){
 
 				Console.WriteLine (Milliseconds() - pads [max].lastDown);
-				if(data.keysDoubleTap[max] != null && Milliseconds() - pads [max].lastDown < doubleTapTime){
-					KeyDown (data.keysDoubleTap[max]);
-					DelayKeyUp (data.keysDoubleTap[max]);
+				if(data.keys[EventType.tapped][max] != null && Milliseconds() - pads [max].lastDown < doubleTapTime){
+					KeyDown (data.keys[EventType.tapped][max]);
+					DelayKeyUp (data.keys[EventType.tapped][max]);
 				}
 
-				if (data.keys [max] != null) {
-					KeyDown(data.keys[max]);
+				if (data.keys [EventType.pressed][max] != null) {
+					KeyDown(data.keys[EventType.pressed][max]);
 				}
 
-				if(data.keysDown[max] != null){
-					KeyDown (data.keysDown[max]);
-					DelayKeyUp (data.keysDown[max]);
+				if(data.keys[EventType.down][max] != null){
+					KeyDown (data.keys[EventType.down][max]);
+					DelayKeyUp (data.keys[EventType.down][max]);
 				}
 
 				pads[max].down = true;
@@ -136,31 +144,27 @@ namespace BoardControl{
 
 		}
 
-		static void DeviceLost(object sender, DeviceInfoEventArgs arg){
-			Console.WriteLine ("Lost device: " + arg.DeviceInfo.ToString());
-		}
-
 		[DllImport("user32.dll")]
 		static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
 
-		static void KeyDown(Key key){
+		void KeyDown(Key key){
 			Console.WriteLine("Key down: " + key);
 
 			PressKey (key, true);
 		}
 
-		static void KeyUp(Key key){
+		void KeyUp(Key key){
 			Console.WriteLine("Key up: " + key);
 
 			PressKey (key, false);
 		}
 
-		static async Task DelayKeyUp(Key key){
+		async Task DelayKeyUp(Key key){
 			await Task.Delay(keyUpDelay);
 			KeyUp (key);
 		}
 
-		static void PressKey(Key key, bool down){
+		void PressKey(Key key, bool down){
 			if (IsLinux ()) {
 				Console.WriteLine ((down ? "keydown" : "keyup") + " " + key.name);
 				executeBashCommand ((down ? "keydown" : "keyup") + " " + key.name);
@@ -169,12 +173,8 @@ namespace BoardControl{
 			}
 		}
 
-		static long Milliseconds(){
-			return DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-		}
-
 		//requires xdotool to be installed
-		static void executeBashCommand(string args){
+		void executeBashCommand(string args){
 			startInfo.FileName = "/usr/bin/xdotool";
 			startInfo.CreateNoWindow = false;
 			startInfo.UseShellExecute = false;
@@ -183,6 +183,10 @@ namespace BoardControl{
 			Process proc = new Process() { StartInfo = startInfo};
 			proc.Start();
 			proc.WaitForExit ();
+		}
+
+		static long Milliseconds(){
+			return DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 		}
 
 		static bool IsLinux(){

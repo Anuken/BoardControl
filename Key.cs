@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BoardControl{
 
 	public class Keys{
+		public static List<Key> All = new List<Key>();
+
 		public static Key
 
 		W = new Key ("w", 0x57),
@@ -25,10 +28,10 @@ namespace BoardControl{
 		//keycode, used for windows
 		public int keycode;
 
-
 		public Key(String name, int keycode){
 			this.name = name;
 			this.keycode = keycode;
+			Keys.All.Add (this);
 		}
 
 		public override string ToString (){
