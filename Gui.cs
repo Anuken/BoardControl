@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Gtk;
 
 namespace BoardControl{
@@ -8,6 +9,7 @@ namespace BoardControl{
 		ControlData data;
 		BoardInput input;
 		string status = "Disconnected";
+		List<BoxData> boxdatas = new List<BoxData> ();
 
 		Window win;
 		Label statuslabel;
@@ -114,6 +116,7 @@ namespace BoardControl{
 
 		void AddBox(VBox box, int selevent = 0, int seltype = 0, int selkey = 0){
 			HBox side = new HBox ();
+			BoxData boxdata = new BoxData ();
 
 			ComboBoxText eventbox = new ComboBoxText ();
 
@@ -138,6 +141,8 @@ namespace BoardControl{
 
 			keybox.Active = selkey;
 
+			boxdatas.Add (boxdata);
+
 			EventHandler changed = (e, args) => {
 				data.keys[(EventType)seltype][selevent] = null;
 				Console.WriteLine("Changed: " + ((EventType)typebox.Active).ToString() + " " + eventbox.Active.ToString() + " " + Keys.All[keybox.Active].ToString());
@@ -145,10 +150,29 @@ namespace BoardControl{
 				selevent = eventbox.Active;
 				seltype = typebox.Active;
 				selkey = keybox.Active;
+
+				boxdata.key = Keys.All[selkey];
+				boxdata.pad = selevent;
+				boxdata.type = (EventType)seltype;
+
+				//clear events
+				foreach(EventType key in data.keys.Keys){
+					for(int i = 0; i < 6; i ++){
+						data.keys[key][i] = null;
+					}
+				}
+
+				//set them up again
+				foreach(BoxData adata in boxdatas){
+					data.keys[adata.type][adata.pad] = adata.key;
+					Console.WriteLine(adata.type.ToString() + " " + adata.pad + " " + adata.key.ToString());
+				}
+
 			};
 
 			changed (null, null);
 
+			//TODO broken changing, can't have two keys with the same function as it overwrites
 			keybox.Changed += changed;
 			typebox.Changed += changed;
 			eventbox.Changed += changed;
@@ -183,6 +207,13 @@ namespace BoardControl{
 
 			return combo;
 		}
+
+	}
+
+	class BoxData{
+		public int pad;
+		public EventType type;
+		public Key key;
 	}
 
 }

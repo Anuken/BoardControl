@@ -18,7 +18,8 @@ namespace BoardControl{
 		RIGHT = new Key ("Right", 0x27),
 		DOWN = new Key ("Down", 0x28),
 
-		LEFT_SHIFT = new Key ("shift", 0x10)
+		LEFT_SHIFT = new Key ("shift", 0x10),
+		SPACE = new Key ("space", 0x20)
 		;
 	}
 	

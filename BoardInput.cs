@@ -10,7 +10,7 @@ namespace BoardControl{
 	class BoardInput{
 		const int keyUpDelay = 16;
 		const int doubleTapTime = 300;
-		const float threshhold = 5f;
+		const float threshhold = 3.5f;
 		const uint KEY_RELEASE = 2;
 
 		public ControlData data;
